@@ -6,12 +6,10 @@ import model.Reservation;
 import services.CustomerService;
 import services.ReservationService;
 
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 
 public class HotelResource {
     private static HotelResource hotelResource;
-
     private HotelResource() {}
 
     public static HotelResource getInstance() {
@@ -33,18 +31,13 @@ public class HotelResource {
         return ReservationService.getInstance().getARoom(roomNumber);
     }
 
-    public Reservation bookARoom(Customer customerEmial, IRoom room,
+    public Reservation bookARoom(String customerEmail, IRoom room,
                                 Date checkInDate, Date checkOutDate){
-        return ReservationService.getInstance().reserveARoom(customerEmial,room,checkInDate,checkOutDate);
+        return ReservationService.getInstance().reserveARoom(customerEmail,room,checkInDate,checkOutDate);
     }
 
-    public Collection<Reservation> getCustomerReservation(Customer customerEmail){
+    public Collection<Reservation> getCustomerReservation(String customerEmail){
         return null;
     }
-
-    public Collection<IRoom> findATRoom(Date checkInDate, Date checkOutDate){
-        return null;
-    }
-
 
 }

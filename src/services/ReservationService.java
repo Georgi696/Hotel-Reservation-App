@@ -4,15 +4,13 @@ import model.Customer;
 import model.IRoom;
 import model.Reservation;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
+import java.util.*;
 
 public class ReservationService {
-    
-    private static ReservationService reservationService = null;
-    Collection<IRoom> roomList = new HashSet<>();
-    Collection<Reservation> reserveList = new HashSet<>();
+
+    private static final ReservationService reservationService = null;
+    Set<IRoom> roomList = new HashSet<>();
+    Set<Reservation> reserveList = new HashSet<>();
 
     private ReservationService() {}
 
@@ -38,7 +36,7 @@ public class ReservationService {
         return null;
     }
 
-    public Reservation reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate){
+    public Reservation reserveARoom(String customer, IRoom room, Date checkInDate, Date checkOutDate){
         Reservation reservationRoom = new Reservation();
         reserveList.add(reservationRoom);
         return reservationRoom;
@@ -59,8 +57,28 @@ public class ReservationService {
     }
 
     public void printAllReservetions(){
-        for (Reservation reservation: reserveList) {
-            System.out.println(reservation);
+        if (!reserveList.isEmpty()) {
+            System.out.println(reserveList);
+        } else {
+            System.out.println("There is no reservations yet");
         }
+    }
+
+    public Collection<IRoom> findARoom(Date checkInDate, Date checkOutDate) {
+        List<IRoom> availableRooms = new ArrayList<>();
+        if (reserveList.isEmpty()) {
+            return roomList;
+        } else {
+            for (Reservation reservation : reserveList) {
+                if (!reservation.getCheckInDate().after(checkInDate) && !reservation.getCheckOutDate().before(checkOutDate)) {
+                    for (IRoom room : roomList) {
+                        if (!reservation.getRoom().equals(room)) {
+                            availableRooms.add(room);
+                        }
+                    }
+                }
+            }
+        }
+        return availableRooms;
     }
 }

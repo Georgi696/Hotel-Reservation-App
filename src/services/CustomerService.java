@@ -2,12 +2,12 @@ package services;
 
 import model.Customer;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 public class CustomerService {
     private static CustomerService customerService = null;
-    Collection<Customer> customers = new ArrayList<>();
+    HashSet<Customer> customers = new HashSet<>();
 
     private CustomerService() {}
 
