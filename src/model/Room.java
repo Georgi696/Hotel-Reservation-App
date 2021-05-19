@@ -5,16 +5,16 @@ import java.util.Objects;
 public class Room implements IRoom {
     private String roomNumber;
     private Double price;
-    private RoomType enumerations;
+    private RoomType roomType;
 
-    public Room(String roomNumber,Double price, RoomType enumerations) {
+    public Room(String roomNumber,Double price, RoomType roomType) {
         super();
         if (roomNumber == null){
             System.out.println("The Room number not existing");
         }
         this.roomNumber = roomNumber;
         this.price = price;
-        this.enumerations = enumerations;
+        this.roomType = roomType;
     }
 
     @Override
@@ -25,12 +25,12 @@ public class Room implements IRoom {
 
     @Override
     public Double getRoomPrice() {
-        return null;
+        return price;
     }
 
     @Override
     public RoomType getRoomType() {
-        return null;
+        return roomType;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class Room implements IRoom {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Room room = (Room) o;
-        return Objects.equals(roomNumber, room.roomNumber) && Objects.equals(price, room.price) && enumerations == room.enumerations;
+        return Objects.equals(roomNumber, room.roomNumber) && Objects.equals(price, room.price) && roomType == room.roomType;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class Room implements IRoom {
     }
 
 
-    public void setEnumerations(RoomType enumerations) {
-        this.enumerations = enumerations;
+    public void setEnumerations(RoomType roomType) {
+        this.roomType = roomType;
     }
 }

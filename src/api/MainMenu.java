@@ -28,7 +28,6 @@ public class MainMenu {
     }
 
 
-
         public static void createAccount() throws ParseException {
             Scanner sc = new Scanner(System.in);
             System.out.println("--------------------");
@@ -49,7 +48,6 @@ public class MainMenu {
             Calendar calendar = Calendar.getInstance();
             final String DATE_PATTERN = "MM/dd/yyyy";
             SimpleDateFormat date = new SimpleDateFormat(DATE_PATTERN);
-            input.nextLine();
             try {
                 System.out.println("Enter CheckIn Date mm/dd/yyyy:");
                 Date todayDate = date.parse(date.format(calendar.getTime()));
@@ -81,20 +79,23 @@ public class MainMenu {
                                         createAccount();
                                     } else {
                                         System.out.println("Invalid input!");
+                                        createRoom();
                                     }
                                 } while (!account.equals("y") && !account.equals("n"));
                             } else if (book.equals("n")) {
                                 start();
                             } else {
                                 System.out.println("Invalid input!");
+                                createRoom();
                             }
                         } while (!book.equals("y") && !book.equals("n"));
                     } else {
                         System.out.println("There is no room available");
-
+                        start();
                     }
                 } else {
                     System.out.println("Check in date needs to be from today onwards and check out date can not be before check in date");
+                    createRoom();
                 }
             } catch (ParseException ex) {
                 ex.printStackTrace();

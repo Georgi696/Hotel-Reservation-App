@@ -9,8 +9,6 @@ import java.util.*;
 public class ReservationService {
 
     private static final ReservationService reservationService = null;
-    Set<IRoom> roomList = new HashSet<>();
-    Set<Reservation> reserveList = new HashSet<>();
 
     private ReservationService() {}
 
@@ -21,11 +19,8 @@ public class ReservationService {
         return reservationService;
     }
 
-
-
-    public void addRoom(IRoom room){
-        roomList.add(room);
-    }
+    static Collection<IRoom> roomList = new ArrayList<>();
+    static Collection<Reservation> reserveList = new ArrayList<>();
 
     public IRoom getARoom(String roomId){
         for (IRoom room: roomList) {
@@ -52,9 +47,6 @@ public class ReservationService {
         return reservation;
     }
 
-    public Collection<IRoom> getAllRooms() {
-        return roomList;
-    }
 
     public void printAllReservetions(){
         if (!reserveList.isEmpty()) {
@@ -63,6 +55,7 @@ public class ReservationService {
             System.out.println("There is no reservations yet");
         }
     }
+
 
     public Collection<IRoom> findARoom(Date checkInDate, Date checkOutDate) {
         List<IRoom> availableRooms = new ArrayList<>();
@@ -81,4 +74,13 @@ public class ReservationService {
         }
         return availableRooms;
     }
+
+    public void addRoom(IRoom room){
+        roomList.add(room);
+    }
+
+    public Collection<IRoom> getAllRooms() {
+        return roomList;
+    }
+
 }
