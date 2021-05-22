@@ -88,14 +88,9 @@ public class ReservationService {
         }
     }
 
-    public static Collection<Reservation> getCustomersReservations(String customer) {
-        List<Reservation> reservationsByCustomer = new ArrayList<>();
-        for (Reservation reservation : reserveList) {
-            if (reservation.getCustomer().equals(customer)) {
-                reservationsByCustomer.add(reservation);
-            }
-        }
-        return reservationsByCustomer;
+    public static Collection<Reservation> getCustomersReservations(Customer customer) {
+        CustomerService.getInstance().getCustomer(customer.getEmail());
+        return reserveList;
     }
 
 

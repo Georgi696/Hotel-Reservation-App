@@ -11,8 +11,8 @@ import java.util.*;
 public class HotelResource {
     private static HotelResource hotelResource;
     public static ReservationService reservationService = ReservationService.getInstance();
-    static CustomerService customerService = CustomerService.getInstance();
     private HotelResource() {}
+
 
     public static HotelResource getInstance() {
         if (null == hotelResource) {
@@ -35,12 +35,13 @@ public class HotelResource {
 
     public Reservation bookARoom(String customerEmail, IRoom room,
                                 Date checkInDate, Date checkOutDate){
-        return ReservationService.getInstance().reserveARoom(customerService.getCustomer(customerEmail),room,checkInDate,checkOutDate);
+        CustomerService customer = CustomerService.getInstance();
+        return ReservationService.getInstance().reserveARoom(customer.getCustomer(customerEmail),room,checkInDate,checkOutDate);
     }
 
     public Collection<Reservation> getCustomerReservation(String customerEmail){
-        Customer customer = customerService.getCustomer(customerEmail);
-        return reservationService.getCustomerReservation(customer);
+        CustomerService.getInstance().getCustomer(customerEmail.getEmail());
+        return reservationService.getCustomerReservation(customerEmail);
     }
 
 }
