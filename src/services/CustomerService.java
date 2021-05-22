@@ -45,7 +45,7 @@ public class CustomerService {
         return customers;
     }
 
-    public static Collection<Reservation> getCustomersReservation(String customerEmail) {
+    public static Collection<Reservation> getCustomersReservation(Customer customerEmail) {
         return reservationService.getCustomersReservations(customerEmail);
     }
 

@@ -30,35 +30,42 @@ public class AdminMenu{
     public static void start() throws ParseException {
         int select = adminMenu();
         Scanner scanner = new Scanner(System.in);
-
-        switch (select){
-            case 1:
-                System.out.println("All Customers");
-                CustomerService.getInstance().getAllCustomers();
-                start();
-                break;
-            case 2:
-                System.out.println("All Rooms");
-                reservationService.printAllRooms();
-                start();
-                break;
-            case 3:
-                System.out.println("All Reservations");
-                ReservationService.getInstance().printAllReservetions();
-                start();
-                break;
-            case 4:
-                addRoom();
-                start();
-                break;
-            case 5:
-                System.out.println("Exit to Main Menu? y/n");
-                char gender = scanner.next().charAt(0);
-                if (gender == 'y'){
-                    mainMenu.start();
+        boolean exit = false;
+        while (!exit) {
+            do {
+                switch (select){
+                    case 1:
+                        System.out.println("All Customers");
+                        CustomerService.getInstance().getAllCustomers();
+                        start();
+                        break;
+                    case 2:
+                        System.out.println("All Rooms");
+                        reservationService.printAllRooms();
+                        start();
+                        break;
+                    case 3:
+                        System.out.println("All Reservations");
+                        ReservationService.getInstance().printAllReservetions();
+                        start();
+                        break;
+                    case 4:
+                        addRoom();
+                        start();
+                        break;
+                    case 5:
+                        System.out.println("Exit to Main Menu? y/n");
+                        char gender = scanner.next().charAt(0);
+                        if (gender == 'y'){
+                            mainMenu.start();
+                        }
+                        break;
+                    default:
+                        System.out.println("Invalid input");
                 }
-                break;
+            } while (!scanner.equals("1") && !scanner.equals("2") && !scanner.equals("3") && !scanner.equals("4") && !scanner.equals("5") && !exit);
         }
+
     }
     public static void addRoom() throws NumberFormatException, InputMismatchException {
         //add room number

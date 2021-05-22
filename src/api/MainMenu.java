@@ -111,7 +111,7 @@ public class MainMenu {
             Scanner input = new Scanner(System.in);
             System.out.println("Enter your email: ");
             String email = input.next();
-            Collection<Reservation> reservations = reservationService.getCustomersReservations(email);
+            Collection<Reservation> reservations = reservationService.getCustomersReservations(hotelResource.getCustomer(email));
             if (!reservations.isEmpty()) {
                 for (Reservation reservation : reservations) {
                     System.out.println(reservation);
@@ -124,9 +124,9 @@ public class MainMenu {
 
     public static void start() throws ParseException{
         Scanner scanner = new Scanner(System.in);
-        boolean exit = false;
-        while (!exit) {
-            do {
+    boolean exit = false;
+    while (!exit) {
+        do {
                 System.out.println("Welcome to the Hotel Reservation App");
                 System.out.println("-------------------------");
                 System.out.println("1. Find and reserve a room");

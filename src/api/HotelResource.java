@@ -39,9 +39,4 @@ public class HotelResource {
         return ReservationService.getInstance().reserveARoom(customer.getCustomer(customerEmail),room,checkInDate,checkOutDate);
     }
 
-    public Collection<Reservation> getCustomerReservation(String customerEmail){
-        CustomerService.getInstance().getCustomer(customerEmail.getEmail());
-        return reservationService.getCustomerReservation(customerEmail);
-    }
-
 }
