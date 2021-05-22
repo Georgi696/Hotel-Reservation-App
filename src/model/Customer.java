@@ -58,6 +58,7 @@ public final class Customer  {
     public int hashCode() {
         return Objects.hash(firstName, lastName, email);
     }
+
     public static boolean isValid(String email)
     {
         Pattern pat = Pattern.compile(EMAIL_REGEX);

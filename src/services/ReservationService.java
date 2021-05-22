@@ -89,7 +89,12 @@ public class ReservationService {
     }
 
     public static Collection<Reservation> getCustomersReservations(Customer customer) {
-        CustomerService.getInstance().getCustomer(customer.getEmail());
+        if (customer != null){
+            CustomerService.getInstance().getCustomer(customer.getEmail());
+        }
+        else {
+            System.out.println("No such email");
+        }
         return reserveList;
     }
 

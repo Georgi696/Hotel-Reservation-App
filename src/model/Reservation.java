@@ -16,10 +16,6 @@ public final class Reservation {
         this.checkOutDate = checkOutDate;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
     public Customer getCustomer() {
         return customer;
     }

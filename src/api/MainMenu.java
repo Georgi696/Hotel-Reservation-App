@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class MainMenu {
 
@@ -19,7 +20,6 @@ public class MainMenu {
     private static final HotelResource hotelResource = HotelResource.getInstance();
 
     private static MainMenu mainMenu;
-    private String emailInput;
 
     public static MainMenu getInstance() {
         if (null == mainMenu) {
@@ -34,13 +34,32 @@ public class MainMenu {
             System.out.println("--------------------");
             System.out.println("Enter email address");
             String emailInput = sc.next();
-            System.out.println("Enter your First Name");
-            String firstName = sc.next();
-            System.out.println("Enter your Last Name");
-            String lastName = sc.next();
-            hotelResource.createACustomer(firstName,lastName,emailInput);
-            start();
+            if (isValid(emailInput)){
+                System.out.println("Enter your First Name");
+                String firstName = sc.next();
+                System.out.println("Enter your Last Name");
+                String lastName = sc.next();
+                hotelResource.createACustomer(firstName,lastName,emailInput);
+                start();
+            }
+            else {
+                System.out.println("Invalid input");
+            }
         }
+
+    public static boolean isValid(String email)
+    {
+        String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(EMAIL_REGEX);
+        if (email == null) {
+            return false;
+        }
+        return pat.matcher(email).matches();
+    }
 
         public static void createRoom(){
             Scanner input = new Scanner(System.in);
@@ -69,15 +88,17 @@ public class MainMenu {
                                         input.nextLine();
                                         System.out.println("Enter Email format: name@domain.com");
                                         String email = input.next();
-                                        Customer customer = hotelResource.getCustomer(email);
-                                        System.out.println("What room number would you like to reserve?");
-                                        rooms.forEach(System.out::println);
-                                        String roomNumber = input.next();
-                                        IRoom room = hotelResource.getRoom(roomNumber);
-                                        hotelResource.bookARoom(customer.getEmail(), room, checkInDate, checkOutDate);
-                                        Reservation reservation = new Reservation(customer,room,checkInDate,checkOutDate);
-                                        System.out.println(reservation);
-                                        start();
+                                        if (isValid(email)){
+                                            Customer customer = hotelResource.getCustomer(email);
+                                            System.out.println("What room number would you like to reserve?");
+                                            rooms.forEach(System.out::println);
+                                            String roomNumber = input.next();
+                                            IRoom room = hotelResource.getRoom(roomNumber);
+                                            hotelResource.bookARoom(customer.getEmail(), room, checkInDate, checkOutDate);
+                                            Reservation reservation = new Reservation(customer,room,checkInDate,checkOutDate);
+                                            System.out.println(reservation);
+                                            start();
+                                        }
                                     } else if (account.equals("n")) {
                                         System.out.println("You have to create an account");
                                         createAccount();
@@ -106,19 +127,23 @@ public class MainMenu {
             }
         }
 
-
         public static void seeReservations() throws ParseException {
             Scanner input = new Scanner(System.in);
             System.out.println("Enter your email: ");
             String email = input.next();
-            Collection<Reservation> reservations = reservationService.getCustomersReservations(hotelResource.getCustomer(email));
-            if (!reservations.isEmpty()) {
-                for (Reservation reservation : reservations) {
-                    System.out.println(reservation);
+            if (isValid(email)){
+                Collection<Reservation> reservations = reservationService.getCustomersReservations(hotelResource.getCustomer(email));
+                if (!reservations.isEmpty()) {
+                    for (Reservation reservation : reservations) {
+                        System.out.println(reservation);
+                    }
+                } else {
+                    System.out.println("You have no reservations yet");
+                    start();
                 }
-            } else {
-                System.out.println("You have no reservations yet");
-                start();
+            }
+            else {
+                System.out.println("Invalid input");
             }
         }
 
@@ -155,6 +180,7 @@ public class MainMenu {
                         char yesNo = scanner.next().charAt(0);
                         if (yesNo == 'y') {
                             System.out.println("Exit");
+                            exit = true;
                         }
                         break;
                     default:
