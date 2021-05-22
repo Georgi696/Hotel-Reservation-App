@@ -1,6 +1,5 @@
 package api;
 
-import model.Customer;
 import model.IRoom;
 import model.Room;
 import model.RoomType;
@@ -8,11 +7,14 @@ import services.CustomerService;
 import services.ReservationService;
 
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
 
 public class AdminMenu{
     public static AdminResource adminResource = AdminResource.getInstance();
-    //public static HotelResource hotelResource = HotelResource.getInstance();
+    public static ReservationService reservationService = ReservationService.getInstance();
     private static final MainMenu mainMenu = MainMenu.getInstance();
     private static AdminMenu adminMenu;
     private AdminMenu() {}
@@ -37,7 +39,7 @@ public class AdminMenu{
                 break;
             case 2:
                 System.out.println("All Rooms");
-                seeAllRooms();
+                reservationService.printAllRooms();
                 start();
                 break;
             case 3:
@@ -63,9 +65,8 @@ public class AdminMenu{
         Scanner input = new Scanner(System.in);
         System.out.println("Enter a new Room number");
         String roomNum = input.nextLine();
-        int rNum = 0;
         try {
-            rNum = Integer.parseInt(roomNum);
+            Integer.parseInt(roomNum);
         } catch (NumberFormatException n) {
             System.out.println("Numeric input only");
             adminMenu();
@@ -80,7 +81,6 @@ public class AdminMenu{
             System.out.println("Numeric input only");
             while (price == 0) {
                 System.out.println("Try again");
-                addRoom();
             }
         }
 
@@ -110,23 +110,6 @@ public class AdminMenu{
                 addRoom();
             case "n":
                 adminMenu();
-        }
-    }
-
-    public static void seeAllCustomers(){
-        Collection<Customer> customers = adminResource.getAllCustomers();
-        customers.forEach(System.out::println);
-        adminMenu();
-    }
-
-    public static void seeAllRooms(){
-        Collection<IRoom> rooms = adminResource.getAllRoom();
-        if (!rooms.isEmpty()) {
-            for (IRoom room : rooms) {
-                System.out.println(room);
-            }
-        } else {
-            System.out.println("There is no rooms yet");
         }
     }
 

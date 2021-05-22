@@ -9,6 +9,7 @@ import java.util.*;
 public class ReservationService {
 
     private static final ReservationService reservationService = null;
+    public static final CustomerService customerService = CustomerService.getInstance();
 
     private ReservationService() {}
 
@@ -31,14 +32,14 @@ public class ReservationService {
         return null;
     }
 
-    public Reservation reserveARoom(String customer, IRoom room, Date checkInDate, Date checkOutDate){
-        Reservation reservationRoom = new Reservation();
+    public Reservation reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate){
+        Reservation reservationRoom = new Reservation(customer,room,checkInDate,checkOutDate);
         reserveList.add(reservationRoom);
         return reservationRoom;
     }
 
     public Collection<Reservation> getCustomerReservation(Customer customer){
-        HashSet<Reservation> reservation = new HashSet<>();
+        Set<Reservation> reservation = new HashSet<>();
         for (Reservation r: reserveList){
             if (r.equals(customer)){
                 reservation.add(r);
@@ -78,6 +79,25 @@ public class ReservationService {
     public void addRoom(IRoom room){
         roomList.add(room);
     }
+
+    public void printAllRooms(){
+        if (!roomList.isEmpty()) {
+            System.out.println(roomList);
+        } else {
+            System.out.println("There are no rooms.");
+        }
+    }
+
+    public static Collection<Reservation> getCustomersReservations(String customer) {
+        List<Reservation> reservationsByCustomer = new ArrayList<>();
+        for (Reservation reservation : reserveList) {
+            if (reservation.getCustomer().equals(customer)) {
+                reservationsByCustomer.add(reservation);
+            }
+        }
+        return reservationsByCustomer;
+    }
+
 
     public Collection<IRoom> getAllRooms() {
         return roomList;

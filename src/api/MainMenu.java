@@ -19,6 +19,7 @@ public class MainMenu {
     private static final HotelResource hotelResource = HotelResource.getInstance();
 
     private static MainMenu mainMenu;
+    private String emailInput;
 
     public static MainMenu getInstance() {
         if (null == mainMenu) {
@@ -74,6 +75,9 @@ public class MainMenu {
                                         String roomNumber = input.next();
                                         IRoom room = hotelResource.getRoom(roomNumber);
                                         hotelResource.bookARoom(customer.getEmail(), room, checkInDate, checkOutDate);
+                                        Reservation reservation = new Reservation(customer,room,checkInDate,checkOutDate);
+                                        System.out.println(reservation);
+                                        start();
                                     } else if (account.equals("n")) {
                                         System.out.println("You have to create an account");
                                         createAccount();
@@ -102,51 +106,61 @@ public class MainMenu {
             }
         }
 
+
+        public static void seeReservations() throws ParseException {
+            Scanner input = new Scanner(System.in);
+            System.out.println("Enter your email: ");
+            String email = input.next();
+            Collection<Reservation> reservations = reservationService.getCustomersReservations(email);
+            if (!reservations.isEmpty()) {
+                for (Reservation reservation : reservations) {
+                    System.out.println(reservation);
+                }
+            } else {
+                System.out.println("You have no reservations yet");
+                start();
+            }
+        }
+
     public static void start() throws ParseException{
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Welcome to the Hotel Reservation App");
-        System.out.println("-------------------------");
-        System.out.println("1. Find and reserve a room");
-        System.out.println("2. See my reservation");
-        System.out.println("3. Create an account");
-        System.out.println("4. Admin");
-        System.out.println("5. Exit");
-        System.out.println("-------------------------");
-        System.out.println("Please select menu number:");
-        int select = scanner.nextInt();
-
-        switch (select) {
-            case 1:
-                createRoom();
-                break;
-            case 2:
-                Scanner input = new Scanner(System.in);
-                System.out.println("Enter your email:");
-                String email = input.next();
-                Collection<Reservation> reservations = hotelResource.getCustomerReservation(email);
-                if (!reservations.isEmpty()) {
-                    for (Reservation reservation : reservations) {
-                        System.out.println(reservation);
-                    }
-                } else {
-                    System.out.println("You have no reservations yet");
+        boolean exit = false;
+        while (!exit) {
+            do {
+                System.out.println("Welcome to the Hotel Reservation App");
+                System.out.println("-------------------------");
+                System.out.println("1. Find and reserve a room");
+                System.out.println("2. See my reservation");
+                System.out.println("3. Create an account");
+                System.out.println("4. Admin");
+                System.out.println("5. Exit");
+                System.out.println("-------------------------");
+                System.out.println("Please select menu number:");
+                String select = scanner.next();
+                switch (select) {
+                    case "1":
+                        createRoom();
+                        break;
+                    case "2":
+                        seeReservations();
+                        break;
+                    case "3":
+                        createAccount();
+                        break;
+                    case "4":
+                        adminMenu.start();
+                        break;
+                    case "5":
+                        System.out.println("Exit? y/n");
+                        char yesNo = scanner.next().charAt(0);
+                        if (yesNo == 'y') {
+                            System.out.println("Exit");
+                        }
+                        break;
+                    default:
+                        System.out.println("Invalid input");
                 }
-                break;
-        case 3:
-                createAccount();
-                break;
-            case 4:
-                adminMenu.start();
-                break;
-            case 5:
-                System.out.println("Exit? y/n");
-                char yesNo = scanner.next().charAt(0);
-                if (yesNo == 'y') {
-                    System.out.println("Exit");
-                }
-                break;
-            default:
-                System.out.println("Invalid input");
+            } while (!scanner.equals("1") && !scanner.equals("2") && !scanner.equals("3") && !scanner.equals("4") && !scanner.equals("5") && !exit);
         }
     }
 }

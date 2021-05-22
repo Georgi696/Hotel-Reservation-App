@@ -1,14 +1,16 @@
 package services;
 
 import model.Customer;
+import model.Reservation;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 
 public class CustomerService {
     private static CustomerService customerService = null;
-    HashSet<Customer> customers = new HashSet<>();
-
+    Set<Customer> customers = new HashSet<>();
+    public static ReservationService reservationService = ReservationService.getInstance();
     private CustomerService() {}
 
     public static CustomerService getInstance() {
@@ -37,7 +39,14 @@ public class CustomerService {
         if (!customers.isEmpty()){
             customers.forEach(System.out::println);
         }
+        else {
+            System.out.println("There are no new Accounts");
+        }
         return customers;
+    }
+
+    public static Collection<Reservation> getCustomersReservation(String customerEmail) {
+        return reservationService.getCustomersReservations(customerEmail);
     }
 
 }

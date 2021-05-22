@@ -51,17 +51,12 @@ public class Room implements IRoom {
         return Objects.hash(getRoomNumber(), getRoomPrice(), getRoomType());
     }
 
-    public void setRoomNumber(String roomNumber) {
-        this.roomNumber = roomNumber;
-    }
-
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-
-    public void setEnumerations(RoomType roomType) {
-        this.roomType = roomType;
+    @Override
+    public String toString(){
+        return "Room{" +
+                "roomNumber='" + roomNumber + '\'' +
+                ", price=" + price +
+                ", enumeration=" + roomType +
+                '}';
     }
 }

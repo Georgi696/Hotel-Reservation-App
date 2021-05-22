@@ -9,6 +9,13 @@ public final class Reservation {
     private Date checkInDate;
     private Date checkOutDate;
 
+    public Reservation(Customer customer, IRoom room, Date checkInDate, Date checkOutDate){
+        this.customer = customer;
+        this.room = room;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+    }
+
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
@@ -40,5 +47,13 @@ public final class Reservation {
     @Override
     public int hashCode() {
         return Objects.hash(getCustomer(), getRoom(), getCheckInDate(), getCheckOutDate());
+    }
+
+    @Override
+    public String toString() {
+        return "Reservation: " + customer +
+                ", " + room +
+                ", checkInDate=" + checkInDate +
+                ", checkOutDate=" + checkOutDate;
     }
 }
