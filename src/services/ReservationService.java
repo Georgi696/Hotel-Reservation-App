@@ -9,8 +9,8 @@ import java.util.*;
 public class ReservationService {
 
     private static final ReservationService reservationService = null;
-    public static final CustomerService customerService = CustomerService.getInstance();
-
+    private static final int RECOMMENDED_ROOMS = 7;
+    //public static final CustomerService customerService = CustomerService.getInstance();
     private ReservationService() {}
 
     public static ReservationService getInstance() {
@@ -34,11 +34,15 @@ public class ReservationService {
 
     public Reservation reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate){
         Reservation reservationRoom = new Reservation(customer,room,checkInDate,checkOutDate);
+        Collection<Reservation> customerReservations = getCustomersReservations(customer);
+        if (customerReservations == null){
+            customerReservations = new HashSet(){};
+        }
         reserveList.add(reservationRoom);
         return reservationRoom;
     }
 
-    public Collection<Reservation> getCustomerReservation(Customer customer){
+    Collection<Reservation> getCustomerReservation(Customer customer){
         Set<Reservation> reservation = new HashSet<>();
         for (Reservation r: reserveList){
             if (r.equals(customer)){
@@ -58,25 +62,31 @@ public class ReservationService {
     }
 
 
-    public Collection<IRoom> findARoom(Date checkInDate, Date checkOutDate) {
-        List<IRoom> availableRooms = new ArrayList<>();
-        if (reserveList.isEmpty()) {
-            return roomList;
+    public static Collection<IRoom> findARoom(Date checkInDate, Date checkOutDate) {
+        Collection<IRoom> availableRooms = new HashSet<>();
+        if (reserveList.size() == 0) {
+            availableRooms = roomList;
+            return availableRooms;
         } else {
-            for (Reservation reservation : reserveList) {
-                if (!reservation.getCheckInDate().after(checkInDate) && !reservation.getCheckOutDate().before(checkOutDate)) {
-                    for (IRoom room : roomList) {
-                        if (!reservation.getRoom().equals(room)) {
-                            availableRooms.add(room);
-                        }
+            for (Reservation res : reserveList) {
+                for (IRoom rom : roomList) {
+                    if ((rom.getRoomNumber().equals(res.getRoom().getRoomNumber()))
+                            && ((checkInDate.before(res.getCheckInDate()) && checkOutDate.before(res.getCheckInDate()))
+                            || (checkInDate.after(res.getCheckOutDate()) && checkOutDate.after(res.getCheckOutDate())))
+                            || (!res.getRoom().getRoomNumber().contains(rom.getRoomNumber()))) {
+                        availableRooms.add(rom);
+                        System.out.println("Room Available?" + availableRooms);
+                    } else if (rom.getRoomNumber().equals(res.getRoom().getRoomNumber())) {
+                        availableRooms.remove(rom);
                     }
                 }
             }
         }
+        recommend(availableRooms,checkInDate, checkOutDate);
         return availableRooms;
     }
 
-    public void addRoom(IRoom room){
+    void addRoom(IRoom room){
         roomList.add(room);
     }
 
@@ -98,6 +108,17 @@ public class ReservationService {
         return reserveList;
     }
 
+    public static void recommend(Collection<IRoom> availableRooms,Date checkInDate, Date checkOutDate){
+        for(Reservation res : reserveList){
+            for(IRoom room : roomList){
+                if(room.getRoomNumber().equals(res.getRoom().getRoomNumber())
+                        && !((checkInDate.before(res.getCheckInDate()) && checkOutDate.before(res.getCheckInDate()))
+                        || (checkInDate.after(res.getCheckOutDate()) && checkOutDate.after(res.getCheckOutDate()))))
+                    availableRooms.remove(room);
+                System.out.println(availableRooms);
+            }
+        }
+    }
 
     public Collection<IRoom> getAllRooms() {
         return roomList;

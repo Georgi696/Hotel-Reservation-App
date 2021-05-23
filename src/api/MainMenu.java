@@ -181,6 +181,7 @@ public class MainMenu {
                         if (yesNo == 'y') {
                             System.out.println("Exit");
                             exit = true;
+                            System.exit(0);
                         }
                         break;
                     default:

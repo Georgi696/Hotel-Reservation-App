@@ -10,7 +10,6 @@ import java.util.*;
 
 public class HotelResource {
     private static HotelResource hotelResource;
-    public static ReservationService reservationService = ReservationService.getInstance();
     private HotelResource() {}
 
 

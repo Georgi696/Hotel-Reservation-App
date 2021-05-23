@@ -58,7 +58,10 @@ public class AdminMenu{
                         char gender = scanner.next().charAt(0);
                         if (gender == 'y'){
                             mainMenu.start();
+                            //System.exit(0);
+                            exit = true;
                         }
+                        start();
                         break;
                     default:
                         System.out.println("Invalid input");

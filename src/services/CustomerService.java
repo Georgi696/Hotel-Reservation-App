@@ -1,7 +1,7 @@
 package services;
 
 import model.Customer;
-import model.Reservation;
+import model.IRoom;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -45,8 +45,14 @@ public class CustomerService {
         return customers;
     }
 
+/*
     public static Collection<Reservation> getCustomersReservation(Customer customerEmail) {
         return reservationService.getCustomersReservations(customerEmail);
+    }
+*/
+
+    public void addARoom (IRoom room){
+        reservationService.addRoom(room);
     }
 
 }
